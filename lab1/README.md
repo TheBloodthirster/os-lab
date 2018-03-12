@@ -64,7 +64,7 @@ private:
 
 为了理解他们到底是如何工作的, 在本实验中(还有`Lab 3`), 我们将直接使用`线程原语`来运行简单的并发程序, 比如`Unix(Solaris)`的应用程序. 如果你为此感到困惑, 请不用担心. 
 
-只需使用`make`命令即可编译`nachos`的可执行程序. 在代码所在目录里运行`make`(无需任何参数), 生成的`nachos`可执行程序存放在`threads`子目录里. 如果你现在已经在`threads`子目录下和一个`nachos`可执行程序在一起, 你即可输入命令`nachos`(如果没有生效, 可以尝试`./nachos`)来简单测试`Nachos`. 
+只需使用`make`命令即可编译`nachos`的可执行程序. 在目录`code`里运行`make`(无需任何参数), 生成的`nachos`可执行程序存放在`threads`子目录里. 如果你现在已经在`threads`子目录下和一个`nachos`可执行程序在一起, 你即可输入命令`nachos`(如果没有生效, 可以尝试`./nachos`)来简单测试`Nachos`. 
 
 如果你有仔细阅读过`threads/main.cc`, 你会发现你正在执行`threadtest.cc`的`ThreadTest`函数. `ThreadTest`是一个简单的并发程序示例. 在本例中, 有两个的独立线程在"同一时刻"控制执行并且在进程中访问相同的数据. 你的首要目标就是程序所使用的线程原语, 然后做些实验来帮助理解程序运行时的多线程到底是如何发生的. 为了理解代码执行路径, 你可以在简单测试示例里跟踪代码. 请阅读`Section 2.2`(看`Tracing and Debugging Nachos Programs`部分)中的相关提示.
 
