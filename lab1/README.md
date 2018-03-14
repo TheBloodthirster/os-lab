@@ -75,7 +75,9 @@ private:
 1. 将本仓库`lab1`目录下的`dllist.h`, `dllist.cc`和`dllist-driver.cc`放在`Nachos`源码的`/nachos-3.4/code/threads`目录下. 
 2. 对`Makefile.common`在`THREAD_H`中添加`../threads/dllist.h\` (可以参照本仓库中的`Makefile.common`文件)
 3. 对`Makefile.common`在`THREAD_C`中添加`../threads/dllist.cc\`和`../threads/dllist-driver.cc\` (可以参照本仓库中的`Makefile.common`文件)
-4. 
+4. 使用`make`命令编译即可
+
+由于第一部分的内容, 并不需要和`nachos`联系起来, 所以为了方便测试, 我写了一个单独的`Makefile`专门用于编译`dllist.cc`, `dllist.h`和`dllist-driver.cc`, 生成一个`test`的可执行文件. 关于测试是以`dllist-driver.cc`里的`main`函数做基准的.
 
 ## 熟悉Nachos并理解其线程系统 (80 分)
 

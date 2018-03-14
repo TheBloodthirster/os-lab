@@ -34,3 +34,5 @@ DLList::~DLList()
     }
 }
 
+
+// DLList::Append(void *item) {}
