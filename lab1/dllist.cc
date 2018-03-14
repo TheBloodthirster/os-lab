@@ -34,5 +34,51 @@ DLList::~DLList()
     }
 }
 
+// return true if list is empty
+bool DLList::isListEmpty()
+{
+    // when first == NULL and last == NULL
+    // list is empty
+    if (!first && !last)
+    {
+        return true;
+    }
 
-// DLList::Append(void *item) {}
+    // list is not empty
+    return false;
+}
+
+// add to head of list (set key = min_key-1)
+void DLList::Prepend(void *item)
+{
+    if (isListEmpty())
+    {
+        // list is empty
+        DLLElement *newNode = new DLLElement(item, 0);
+        first = newNode;
+    }
+    else
+    {
+        // list is not empty
+        DLLElement *newNode = new DLLElement(item, first->key - 1);
+        first->prev = newNode;
+        newNode->next = first;
+        first = newNode;
+    }
+}
+
+// add to tail of list (set key = max_key+1)
+void DLList::Append(void *item)
+{
+    if (isListEmpty()) {
+        // list is empty
+                DLLElement *newNode = new DLLElement(item, 0);
+        first = newNode;
+    } else {
+                // list is not empty
+        DLLElement *newNode = new DLLElement(item, last->key - 1);
+        last->prev = newNode;
+        newNode->next = last;
+        last = newNode;
+    }
+}
