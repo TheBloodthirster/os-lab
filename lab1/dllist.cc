@@ -89,9 +89,9 @@ void DLList::Append(IN void *item)
 // remove from head of list
 // set *keyPtr to key of the removed item
 // return item (or NULL if list is empty)
-void* DLList::Remove(OUT int *keyPtr)
+void *DLList::Remove(OUT int *keyPtr)
 {
-    void* temp;
+    void *temp;
     if (IsEmpty())
     {
         // list is empty
@@ -103,9 +103,89 @@ void* DLList::Remove(OUT int *keyPtr)
         // first != NULL
         first = first->next;
         *keyPtr = first->prev->key;
+        first->prev->next = NULL;
         temp = first->prev->item;
         delete first->prev;
         first->prev = NULL;
         return temp;
+    }
+}
+
+// routines to put/get items on/off list in order (sorted by key)
+void DLList::SortedInsert(void *item, int sortKey)
+{
+    DLLElement *newNode = new DLLElement(item, sortKey);
+    if (IsEmpty())
+    {
+        // list is empty
+        first = newNode;
+        last = newNode;
+    }
+    else
+    {
+        // list is not empty
+        DLLElement *currNode = first;
+        while (currNode != NULL)
+        {
+            if (currNode->key <= sortKey)
+            {
+                // when currNode == last
+                // or
+                // the currNode->next->key == sortKey
+                if (currNode->next == NULL || currNode->next->key == sortKey)
+                {
+                    break;
+                }
+                currNode = currNode->next;
+            }
+            else
+            {
+                // there are not suitable elementm, we break;
+                // so we will insert the newNode to the head of list
+                currNode = NULL;
+            }
+        }
+
+        if (currNode == NULL)
+        {
+            first->prev = newNode;
+            newNode->next = first;
+            first = newNode;
+        }
+        else
+        {
+            if (currNode == last)
+            {
+                // we will insert newNode to the tail of list
+                newNode->prev = last;
+                last->next = newNode;
+                last = newNode;
+            }
+            else
+            {
+                // we found the suitable element
+                // currNode <-> newNode <-> otherNode(sortKey)
+                //                ^
+                newNode->next = currNode->next;
+                currNode->next->prev = newNode;
+                newNode->prev = currNode;
+                currNode->next = newNode;
+            }
+        }
+    }
+}
+
+// remove first item with key==sortKey
+// return NULL if no such item exists
+void *DLList::SortedRemove(int sortKey)
+{
+    if (IsEmpty())
+    {
+        // list is empty
+        DLLElement *currNode = first;
+    }
+    else
+    {
+        // list is not empty
     }
 }
