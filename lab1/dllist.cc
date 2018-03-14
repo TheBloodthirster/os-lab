@@ -179,13 +179,58 @@ void DLList::SortedInsert(void *item, int sortKey)
 // return NULL if no such item exists
 void *DLList::SortedRemove(int sortKey)
 {
-    if (IsEmpty())
-    {
-        // list is empty
-        DLLElement *currNode = first;
-    }
-    else
+    void *temp; // save the removed Node item
+    if (!IsEmpty())
     {
         // list is not empty
+        DLLElement *currNode = first;
+
+        // find the Node with key == sortKey
+        // or
+        // currNode == NULL
+        while (currNode != NULL && currNode->key != sortKey)
+        {
+            currNode = currNode->next;
+        }
+
+        if (currNode == NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            // we find the suitable node
+            if (currNode == first)
+            {
+                first = first->next;
+                currNode->next = NULL;
+                if (first == NULL)
+                {
+                    // there are only one element in the list
+                    last = NULL;
+                }
+                else
+                {
+                    first->prev == NULL;
+                }
+            }
+            else if (currNode == last)
+            {
+                last = currNode->prev;
+                currNode->prev = NULL;
+                last->next = NULL;
+            }
+            else
+            {
+                currNode->next->prev = currNode->prev;
+                currNode->prev->next = currNode->next;
+            }
+            temp = currNode->item;
+            delete currNode;
+            return temp;
+        }
     }
+
+    // list is empty
+    return NULL;
 }
