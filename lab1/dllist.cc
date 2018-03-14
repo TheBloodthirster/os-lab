@@ -35,7 +35,7 @@ DLList::~DLList()
 }
 
 // return true if list is empty
-bool DLList::isListEmpty()
+bool DLList::IsEmpty()
 {
     // when first == NULL and last == NULL
     // list is empty
@@ -49,9 +49,9 @@ bool DLList::isListEmpty()
 }
 
 // add to head of list (set key = min_key-1)
-void DLList::Prepend(void *item)
+void DLList::Prepend(IN void *item)
 {
-    if (isListEmpty())
+    if (IsEmpty())
     {
         // list is empty
         DLLElement *newNode = new DLLElement(item, 0);
@@ -68,17 +68,44 @@ void DLList::Prepend(void *item)
 }
 
 // add to tail of list (set key = max_key+1)
-void DLList::Append(void *item)
+void DLList::Append(IN void *item)
 {
-    if (isListEmpty()) {
+    if (IsEmpty())
+    {
         // list is empty
-                DLLElement *newNode = new DLLElement(item, 0);
+        DLLElement *newNode = new DLLElement(item, 0);
         first = newNode;
-    } else {
-                // list is not empty
+    }
+    else
+    {
+        // list is not empty
         DLLElement *newNode = new DLLElement(item, last->key - 1);
         last->prev = newNode;
         newNode->next = last;
         last = newNode;
+    }
+}
+
+// remove from head of list
+// set *keyPtr to key of the removed item
+// return item (or NULL if list is empty)
+void* DLList::Remove(OUT int *keyPtr)
+{
+    void* temp;
+    if (IsEmpty())
+    {
+        // list is empty
+        return NULL;
+    }
+    else
+    {
+        // list is not empty
+        // first != NULL
+        first = first->next;
+        *keyPtr = first->prev->key;
+        temp = first->prev->item;
+        delete first->prev;
+        first->prev = NULL;
+        return temp;
     }
 }
