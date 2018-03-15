@@ -18,14 +18,8 @@ extern void dllistDriverTest();
 
 int testnum = 1; // testnum is set in main.cc
 int nodeNum = 6; // nodeNum is set in main.cc
-//----------------------------------------------------------------------
-// SimpleThread
-// 	Loop 5 times, yielding the CPU to another ready thread
-//	each iteration.
-//
-//	"which" is simply a number identifying the thread, for debugging
-//	purposes.
-//----------------------------------------------------------------------
+
+//	"which" is simply a number identifying the thread, for debugging purposes.
 
 void DllistThread1(int which)
 {
@@ -39,20 +33,35 @@ void DllistThread1(int which)
     delHdrNode(newList, nodeNum);
 }
 
-//----------------------------------------------------------------------
-// ThreadTest1
-// 	Set up a ping-pong between two threads, by forking a thread
-//	to call SimpleThread, and then calling SimpleThread ourselves.
-//----------------------------------------------------------------------
-
 void DLListTest1()
 {
     DEBUG('t', "Entering DLListThreadTest1");
 
-    Thread *t = new Thread("forked thread");
+    Thread *t = new Thread("forked thread 1");
 
     t->Fork(DllistThread1, 1);
     DllistThread1(0);
+}
+
+void DllistThread2(int which)
+{
+    DLList *newList = new DLList();
+
+    // TODO:
+
+    currentThread->Yield();
+
+    // TODO:
+}
+
+void DLListTest2()
+{
+    DEBUG('t', "Entering DLListThreadTest2");
+
+    Thread *t = new Thread("forked thread 2");
+
+    t->Fork(DllistThread2, 1);
+    DllistThread2(0);
 }
 
 //----------------------------------------------------------------------
@@ -67,6 +76,9 @@ void ThreadTest()
     {
     case 1:
         DLListTest1();
+        break;
+    case 2:
+        DLListTest2();
         break;
     default:
         printf("No test specified.\n");
