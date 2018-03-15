@@ -136,8 +136,8 @@ void DLList::SortedInsert(void *item, int sortKey)
             {
                 // when currNode == last
                 // or
-                // the currNode->next->key == sortKey
-                if (currNode->next == NULL || currNode->next->key == sortKey)
+                // the currNode->next->key >= sortKey
+                if (currNode->next == NULL || currNode->next->key >= sortKey)
                 {
                     break;
                 }
@@ -172,7 +172,7 @@ void DLList::SortedInsert(void *item, int sortKey)
                 // currNode <-> newNode <-> otherNode(sortKey)
                 //                ^
                 newNode->next = currNode->next;
-                currNode->next->prev = newNode;
+                newNode->next->prev = newNode;
                 newNode->prev = currNode;
                 currNode->next = newNode;
             }
