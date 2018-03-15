@@ -72,10 +72,10 @@ private:
 
 ## 实验代码
 
-1. 将本仓库`lab1`目录下的`dllist.h`, `dllist.cc`和`dllist-driver.cc`放在`Nachos`源码的`/nachos-3.4/code/threads`目录下. 
-2. 对`Makefile.common`在`THREAD_H`中添加`../threads/dllist.h\` (可以参照本仓库中的`Makefile.common`文件)
-3. 对`Makefile.common`在`THREAD_C`中添加`../threads/dllist.cc\`和`../threads/dllist-driver.cc\` (可以参照本仓库中的`Makefile.common`文件)
-4. 使用`make`命令编译即可
+1. [X] 将本仓库`lab1/part1`目录下的`dllist.h`, `dllist.cc`和`dllist-driver.cc`放在`Nachos`源码的`/nachos-3.4/code/threads`目录下. 
+2. [X] 对`Makefile.common`在`THREAD_H`中添加`../threads/dllist.h\`和`../threads/dllist-driver.h\` (可以参照`lab1/part2`中的`Makefile.common`文件)
+3. [X] 对`Makefile.common`在`THREAD_C`中添加`../threads/dllist.cc\`和`../threads/dllist-driver.cc\` (可以参照`lab1/part2`中的`Makefile.common`文件)
+4. [X] 使用`make`命令编译即可
 
 由于第一部分的内容, 并不需要和`nachos`联系起来, 所以为了方便测试, 我写了一个单独的`Makefile`专门用于编译`dllist.cc`, `dllist.h`和`dllist-driver.cc`, 同时我还新加了`dllist-driver.h`文件用于编译, 在`main.cpp`内调用`dllist-driver.h`内的函数进行测试, 生成一个名为`test`的可执行文件. 
 
@@ -93,15 +93,40 @@ private:
 
 你的任务是, 创建一个你自己的`ThreadTest`函数, 该函数启动一个`T`线程以访问一个特定共享的数据结构: 你在第一部分里实现的非同步按优先级排序的双向链表. 非同步是指你的`ThreadTest`和你实现的链表, 都不应该使用`信号`, `互斥锁`, `中断禁用`或其他你将在后续学习到的同步机制. 这些机制都是为了解决那些你应当在本次实验中体验到并需要说明的问题. 
 
-你的各个测试用线程, 都需要调用`dllist-driver.cc`中的两个驱动函数(第一个是插入结点, 第二个是移除结点). 注意了, 你应该在启动线程之前, 就在你的`ThreadTest`函数中创建链表出来, `T`和`N`都应当使用命令行设置. 我们"正确的"或说"预期的"结果应该是, 每个插入到链表中的结点在移除对应的原语中返回`1`次, 每一个调用移除函数应当返回`1`个合法结点, 当最后一个线程结束时链表也应当为空.(The "correct" or  expected" behavior is that each item inserted into the list is returned by the remove primitive exactly once, that every remove call returns a valid item, and that the list is empty when the last thread has finished.) 因为链表经过排序, 每个线程也都期望移除的结点也顺序排序. 尽管当`T > 1`时它们也不一定是线程放回链表的相同结点.(even though they won't necessarily be the same items that thread put into the list if T > 1.)
+你的各个测试用线程, 都需要调用`dllist-driver.cc`中的两个驱动函数(第一个是插入结点, 第二个是移除结点). 注意了, 你应该在启动线程之前, 就在你的`ThreadTest`函数中创建链表出来, `T`和`N`都应当使用命令行设置. 我们"正确的"或说"预期的"结果应该是, 每个插入到链表中的结点最后都会使用`线程移除原语`中返回`1`次, 每次调用`线程移除原语`都应当返回`1`个合法结点, 当最后一个线程结束时链表也应当为空. 因为链表结点按大小排序, 每个线程也都期望移除的结点时也是有序的. 尽管当`T > 1`时它们也不一定是线程放回链表的相同结点.(even though they won't necessarily be the same items that thread put into the list if T > 1.)
 
 一旦你写好了你的测试程序, 你的任务就是识别并说明在这种简单情形下可能发生的任何不对or不在预期内的结果. 在你们的demo和报告中, 你们应当展示一些在程序运行时, 可能因特定执行发生交错而造成的困难. 你的带选项和输出的用于展示bug行为的双向链表和测试程序是最主要的编程挑战. 为了完成这些, 你需要修改代码来"强制"产生特定的线程交错bug, 并展示程序由于一些交错bug是如何运行失败的. 请阅读`Section 2.3`的笔记(看`Controlling the Order of Execution in Nachos`部分), 里面有关于线程交错和一些控制它们的方法的完整讨论. 
 
 特别指出, 这部分的任务要求你完成以下步骤:
 
-1. 复制你的`dllist.h`, `dllist.cc`和`dllist-driver.cc`文件到`threads`子目录里. 在`nachos`根目录的`Makefile.common`中修改`THREAD_H`和`THREAD_C`的定义以包含这些文件并更新`makefile`依赖关系. 这能确保你的文件被编译链接到`nachos`发行版内.
-2. 创建一个类似于文件`threadtest.cc`的驱动程序文件，该文件使用`dllist-driver.cc`中的函数对`DLList`类进行调用. 修改`thread/main.cc`以便执行`nachos`命令时, 执行的是新的驱动程序文件, 而非文件`threadtest.cc`中的函数`ThreadTest`.
-3. 修改你的`DLList`类和`ThreadTest`以强制产生线程交错bug, 解释这里产生的虽不正确但十分有趣的行为. 在演示时, 你应当能够枚举和演示每一个情景, 请使用`Section 2.2.3`中所描述的命令行标志(见`Defining New Command-Line Flags for Nachos`), 而不是总是重新编译你的测试程序
-4. 认真思考你能演示的bug行为, 并将其分类. 你的报告中应该描述每一种类型的bug, 概述线程交错部分并解释线程交错是如何导致bug行为的. 注意, 如果不同线程之间有着不同的交错行为, 那么你可能会发现更多有趣的行为.
+1. [X] 复制你的`dllist.h`, `dllist.cc`和`dllist-driver.cc`文件到`threads`子目录里. 在`nachos`根目录的`Makefile.common`中修改`THREAD_H`和`THREAD_C`的定义以包含这些文件并更新`makefile`依赖关系. 这能确保你的文件被编译链接到`nachos`发行版内.
+2. [X] 创建一个类似于文件`threadtest.cc`的驱动程序文件，该文件使用`dllist-driver.cc`中的函数对`DLList`类进行调用. 修改`thread/main.cc`以便执行`nachos`命令时, 执行的是新的驱动程序文件, 而非文件`threadtest.cc`中的函数`ThreadTest`.
+3. [ ] 修改你的`DLList`类和`ThreadTest`以强制产生线程交错bug, 解释这里产生的虽不正确但十分有趣的行为. 在演示时, 你应当能够枚举和演示每一个情景, 请使用`Section 2.2.3`中所描述的命令行标志(见`Defining New Command-Line Flags for Nachos`), 而不是总是重新编译你的测试程序
+4. [ ] 认真思考你能演示的bug行为, 并将其分类. 你的报告中应该描述每一种类型的bug, 概述线程交错部分并解释线程交错是如何导致bug行为的. 注意, 如果不同线程之间有着不同的交错行为, 那么你可能会发现更多有趣的行为.
 
 你可以不详尽, 但你必须要彻底解决错误. 请着重于那些最"有趣"的交错, 避免花费时间描述or展示大量相似的工作. 实验的目标是让你明白这些并发行为, 而不是给彼此制造繁琐的工作. 
+
+## 实验代码
+
+这里我使用了`lab1/part1`部分的代码, 但进行了些许修改, 你可以在`lab1/part2`找到它. 主要进行了如下改动:
+
+* 删除了`dllist-driver.h`, 将其中的内容重新迁回到`dllist-driver.cc`中
+* 移除了`Makefile.common`中`THREAD_H`部分的`../threads/dllist-driver.h\`. 
+* 添加了`main.cc`,在其中添加了`#include "dllist.h"`, `extern int nodeNum;`以及`nodeNum`的选项设置
+* 添加了`threadtest.cc`, 这是我们本部分实验的主要内容. 我在其中已经实现了一个`DLListTest`的线程测试示例.
+
+> TODO: 仿照函数`DLListTest1`和`DllistThread1`添加`3-6`个线程测试样例
+
+## Section 2.2 Tracing and Debugging Nachos Programs
+
+以下是我读`Section 2.2`记录的一些要点, 帮助你快速掌握内容.
+
+### 使用DEBUG原语进行调试
+
+在`threads`目录下使用命令`fgrep DEBUG *h *cc`查看该原语的相关示例
+
+``` c++
+DEBUG(char flag, char *format, ...) // 使用方法
+./nachos -d // 显示-d选项的DEBUG信息
+```
+
