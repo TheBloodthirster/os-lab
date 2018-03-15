@@ -1,11 +1,14 @@
 CC = g++
 PROG = test
-OBJ = dllist.o
+OBJ = dllist.o dllist-driver.o
 
 $(PROG): $(OBJ)
-	$(CC) -o $(PROG) dllist-driver.cc $(OBJ)
+	$(CC) -o $(PROG) main.cpp $(OBJ)
 
-$(OBJ): dllist.h
+dllist-driver.o: dllist-driver.h 
+	$(CC) -c dllist-driver.cc dllist-driver.h
+
+dllist.o: dllist.h 
 	$(CC) -c dllist.cc dllist.h
 
 clean:

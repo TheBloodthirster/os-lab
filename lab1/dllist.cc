@@ -1,7 +1,4 @@
-#include <iostream>
 #include "dllist.h"
-
-using namespace std;
 
 // initialize a list element
 DLLElement::DLLElement(IN void *itemPtr, IN int sortKey)
