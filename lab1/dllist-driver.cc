@@ -12,7 +12,7 @@ void genRandomNode(IN DLList *list, IN int n)
         item = new int;
         *item = rand() % RANDOM_RANGE;
         key = rand() % RANDOM_RANGE;
-        std::cout << "[*] key = " << key << " item = " << *item << std::endl;
+        std::cout << "[*] generated node key = " << key << " item = " << *item << std::endl;
         list->SortedInsert((void *)item, key);
     }
 }
@@ -21,9 +21,8 @@ void genRandomNode(IN DLList *list, IN int n)
 void delHdrNode(IN DLList *list, IN int n)
 {
     void *item;
-    int *key;
-    // DLLElement *currNode =
-    // TODO: complete the func
+    int *key = new int;
+
     for (int i = 0; i < n; i++)
     {
         if (list->IsEmpty())
@@ -38,7 +37,7 @@ void delHdrNode(IN DLList *list, IN int n)
             item = list->Remove(key);
             if (item != NULL)
             {
-                std::cout << "[*] removed node key = " << *key << " item = " << item << std::endl;
+                std::cout << "[*] removed node key = " << *key << " item = " << *item << std::endl;
             }
             else
             {
