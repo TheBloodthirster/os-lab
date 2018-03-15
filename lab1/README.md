@@ -77,7 +77,7 @@ private:
 3. 对`Makefile.common`在`THREAD_C`中添加`../threads/dllist.cc\`和`../threads/dllist-driver.cc\` (可以参照本仓库中的`Makefile.common`文件)
 4. 使用`make`命令编译即可
 
-由于第一部分的内容, 并不需要和`nachos`联系起来, 所以为了方便测试, 我写了一个单独的`Makefile`专门用于编译`dllist.cc`, `dllist.h`和`dllist-driver.cc`, 生成一个`test`的可执行文件. 关于测试是以`dllist-driver.cc`里的`main`函数做基准的.
+由于第一部分的内容, 并不需要和`nachos`联系起来, 所以为了方便测试, 我写了一个单独的`Makefile`专门用于编译`dllist.cc`, `dllist.h`和`dllist-driver.cc`, 同时我还新加了`dllist-driver.h`文件用于编译, 在`main.cpp`内调用`dllist-driver.h`内的函数进行测试, 生成一个名为`test`的可执行文件. 
 
 ## 熟悉Nachos并理解其线程系统 (80 分)
 
@@ -100,8 +100,8 @@ private:
 特别指出, 这部分的任务要求你完成以下步骤:
 
 1. 复制你的`dllist.h`, `dllist.cc`和`dllist-driver.cc`文件到`threads`子目录里. 在`nachos`根目录的`Makefile.common`中修改`THREAD_H`和`THREAD_C`的定义以包含这些文件并更新`makefile`依赖关系. 这能确保你的文件被编译链接到`nachos`发行版内.
-2. 创建一个类似于文件`threadtest.cc`的驱动程序文件，该文件使用`llist-driver.cc`中的函数对`DLList`类进行调用. 修改`thread/main.cc`以便执行`nachos`命令时, 执行的是新的驱动程序文件, 而非文件`threadtest.cc`中的函数`ThreadTest`.
-3. 修改你的`DLList`类和`ThreadTest`以强制产生线程交错bug, 说明这产生的虽不正确但十分有趣的行为. 在演示时, 你应当能够枚举和演示每一个情景, 请使用`Section 2.2.3`中所描述的命令行标志(见`Defining New Command-Line Flags for Nachos`), 而不是总是重新编译你的测试程序
+2. 创建一个类似于文件`threadtest.cc`的驱动程序文件，该文件使用`dllist-driver.cc`中的函数对`DLList`类进行调用. 修改`thread/main.cc`以便执行`nachos`命令时, 执行的是新的驱动程序文件, 而非文件`threadtest.cc`中的函数`ThreadTest`.
+3. 修改你的`DLList`类和`ThreadTest`以强制产生线程交错bug, 解释这里产生的虽不正确但十分有趣的行为. 在演示时, 你应当能够枚举和演示每一个情景, 请使用`Section 2.2.3`中所描述的命令行标志(见`Defining New Command-Line Flags for Nachos`), 而不是总是重新编译你的测试程序
 4. 认真思考你能演示的bug行为, 并将其分类. 你的报告中应该描述每一种类型的bug, 概述线程交错部分并解释线程交错是如何导致bug行为的. 注意, 如果不同线程之间有着不同的交错行为, 那么你可能会发现更多有趣的行为.
 
 你可以不详尽, 但你必须要彻底解决错误. 请着重于那些最"有趣"的交错, 避免花费时间描述or展示大量相似的工作. 实验的目标是让你明白这些并发行为, 而不是给彼此制造繁琐的工作. 
