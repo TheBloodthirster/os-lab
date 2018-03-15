@@ -98,12 +98,20 @@ void *DLList::Remove(OUT int *keyPtr)
     {
         // list is not empty
         // first != NULL
+        DLLElement *currNode = first;
         first = first->next;
-        *keyPtr = first->prev->key;
-        first->prev->next = NULL;
-        temp = first->prev->item;
-        delete first->prev;
-        first->prev = NULL;
+        if (first == NULL) {
+            // there are only one node in the list
+            last = NULL;
+        } else {
+            first->prev = NULL;
+        }
+        currNode->next = NULL;
+        *keyPtr =currNode->key;
+
+        temp = currNode->item;
+        delete currNode;
+
         return temp;
     }
 }
