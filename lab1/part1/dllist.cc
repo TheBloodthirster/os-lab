@@ -53,6 +53,7 @@ void DLList::Prepend(IN void *item)
         // list is empty
         DLLElement *newNode = new DLLElement(item, 0);
         first = newNode;
+        last = newNode;
     }
     else
     {
@@ -72,11 +73,12 @@ void DLList::Append(IN void *item)
         // list is empty
         DLLElement *newNode = new DLLElement(item, 0);
         first = newNode;
+        last = newNode;
     }
     else
     {
         // list is not empty
-        DLLElement *newNode = new DLLElement(item, last->key - 1);
+        DLLElement *newNode = new DLLElement(item, last->key + 1);
         last->prev = newNode;
         newNode->next = last;
         last = newNode;
