@@ -50,7 +50,8 @@ void delHdrNode(IN DLList *list, IN int n)
 void dllistDriverTest()
 {
     int n;
-
+    int item1,item2;
+    void *i1,*i2;
     std::cout << "[+] Created a DLList named list" << std::endl;
     DLList *list = new DLList();
 
@@ -58,7 +59,12 @@ void dllistDriverTest()
     std::cin >> n;
     std::cout << "[+] Just Create n node in the list" << std::endl;
     genRandomNode(list, n);
-
+    std::cin >> item1;
+    i1 = &item1;
+    list->Prepend(i1);
+    std::cin >> item2;
+    i2 = &item2;
+    list->Append(i2);
     std::cout << "[*] How many node you want to remove?" << std::endl;
     std::cin >> n;
     delHdrNode(list, n);

@@ -79,8 +79,8 @@ void DLList::Append(IN void *item)
     {
         // list is not empty
         DLLElement *newNode = new DLLElement(item, last->key + 1);
-        last->prev = newNode;
-        newNode->next = last;
+        last->next = newNode;
+        newNode->prev = last;
         last = newNode;
     }
 }
