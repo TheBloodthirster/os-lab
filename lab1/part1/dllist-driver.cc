@@ -59,9 +59,11 @@ void dllistDriverTest()
     std::cin >> n;
     std::cout << "[+] Just Create n node in the list" << std::endl;
     genRandomNode(list, n);
+    std::cout << "[+] Item add to head of list" << std::endl;
     std::cin >> item1;
     i1 = &item1;
     list->Prepend(i1);
+    std::cout << "[+] Item add to tail of list" << std::endl;
     std::cin >> item2;
     i2 = &item2;
     list->Append(i2);
