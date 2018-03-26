@@ -221,7 +221,7 @@ void *DLList::SortedRemove(int sortKey)
                 }
                 else
                 {
-                    first->prev == NULL;
+                    first->prev = NULL;
                 }
             }
             else if (currNode == last)
